@@ -1,0 +1,58 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.entities.rest_client:
+        class: AppBundle\Repository\RestClient
+        arguments:
+            baseApiUrl: "%data_api_url%"
+            debug: false
+            session: "@session"
+            oauth2Registry: "@oauth2.registry"
+            jwtService: "@app.service.jwt"
+            tokenService: "@app.security.token_service"
+            logStream: "@app.logstream"
+            logger: "@logger"
+
+    app.entities.metadata_loader:
+        class: AppBundle\Repository\MetaData\Loader
+        arguments:
+            annotationReader: "@annotation_reader"
+            entityNamespace: "AppBundle\\Entity"
+
+    app.entities.metadata_associator:
+        class: AppBundle\Repository\MetaData\Associator
+
+    app.entities.metadata_monitor:
+        class: AppBundle\Repository\MetaData\Monitor
+        arguments:
+            loader: "@app.entities.metadata_loader"
+
+    app.entities.metadata_mapper:
+        class: AppBundle\Repository\MetaData\Mapper
+        arguments:
+            associator: "@app.entities.metadata_associator"
+            monitor: "@app.entities.metadata_monitor"
+
+    app.entities.repository:
+        class: AppBundle\Repository\EntityRepository
+        arguments:
+            restClient: "@app.entities.rest_client"
+            loader: "@app.entities.metadata_loader"
+            mapper: "@app.entities.metadata_mapper"
+
+    app.entities.manager:
+        class: AppBundle\Repository\EntityManager
+        arguments:
+            repository: "@app.entities.repository"
+
+    app.service.jwt:
+        class: AppBundle\Service\JwtService
+        arguments:
+            secretKey: "%jwt_secret%"
+            instance: "@=service('instance.config').getHostname()"
+            session: "@session"
+            sessionHelper: "@session.helper"
+            ttl: "%jwt_ttl%"

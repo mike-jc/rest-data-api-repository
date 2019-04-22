@@ -1,0 +1,49 @@
+{
+    "name": "mike-jc/rest-data-api-repository",
+    "license": "MIT",
+    "type": "project",
+    "description": "Doctrine-like repository for working with REST Data API",
+    "autoload": {
+        "psr-4": { "": "src/", "Test\\": "tests/" },
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
+    },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "tests/" }
+    },
+    "require": {
+        "php": ">=7.1",
+        "symfony/symfony": "3.2.*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/polyfill-apcu": "^1.0",
+        "sensio/distribution-bundle": "^5.0",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "incenteev/composer-parameter-handler": "^2.0",
+        "doctrine/common": "^2.6",
+        "nicmart/tree": "^0.2.7",
+        "phpunit/phpunit": "^5",
+        "myclabs/deep-copy": "^1.6"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^3.0"
+    },
+    "config": {
+        "platform": {
+            "php": "7.1"
+        },
+        "preferred-install": "dist"
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
+        "symfony-web-dir": "web",
+        "symfony-tests-dir": "tests",
+        "symfony-assets-install": "relative",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
+        "branch-alias": {
+            "dev-master": "3.2-dev"
+        }
+    }
+}
